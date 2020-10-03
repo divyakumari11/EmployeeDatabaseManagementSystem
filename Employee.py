@@ -139,7 +139,8 @@ class Employee:
 
         def SearchData():
             lstEmployee.delete(0,END)
-            for row in EmployeeDatabase.searchData(Reference.get(),Firstname.get(),Surname.get(),Address.get(),Gender.get(), Mobile.get(),
+            for row in EmployeeDatabase.searchData(Reference.get(),Firstname.get(),Surname.get(),Address.get(),Gender.get(),
+                                                   Mobile.get(),
                 NINumber.get(),stdLoan.get(),Tax.get(),Pension.get(),Deductions.get(),NetPay.get(),GrossPay.get()):
                 lstEmployee.insert(END,row,str(""))
 
@@ -147,7 +148,7 @@ class Employee:
             if(len(Reference.get())!=0):
                 EmployeeDatabase.deleteRec(Ed[0])
             if(len(Reference.get())!=0):
-                EmployeeDatabase.addEmployeeRec(Referenceget(),Firstname.get(),Surname.get(),Address.get(),Gender.get(),Mobile.get(),NINumber.get(),stdLoan.get(),Tax.get(),Pension.get(),Deductions.get(),NetPay.get(),GrossPay.get())
+                EmployeeDatabase.addEmployeeRec(Reference.get(),Firstname.get(),Surname.get(),Address.get(),Gender.get(),Mobile.get(),NINumber.get(),stdLoan.get(),Tax.get(),Pension.get(),Deductions.get(),NetPay.get(),GrossPay.get())
                 lstEmployee.delete(0,END)
                 lstEmployee.insert(END,(Reference.get(),Firstname.get(),Surname.get(),Address.get(),Gender.get(), Mobile.get(),
                 NINumber.get(),stdLoan.get(),Tax.get(),Pension.get(),Deductions.get(),NetPay.get(),GrossPay.get()))
@@ -284,7 +285,7 @@ class Employee:
         scrollbar.grid(row=1,column=1,sticky='ns')
 
         lstEmployee = Listbox(TopFrame2, width = 145,height=5,font=('arial',12,'bold'),yscrollcommand=scrollbar.set)
-        lstEmployee.bind('<<ListboxSelect>>')
+        lstEmployee.bind('<<ListboxSelect>>',EmployeeRec)
         lstEmployee.grid(row=1,column=0,padx=1,sticky='nsew')
         scrollbar.config(command = lstEmployee.xview)
 #=================================================Widget=============================================================
@@ -308,7 +309,7 @@ class Employee:
         self.txtAddress= Entry(LeftFrame1,font=('arial',12,'bold'),bd=5,width=60, justify='left',textvariable=Address)
         self.txtAddress.grid(row=3,column=1)
 
-        self.lblGender= Label(LeftFrame1,font=('arial',12,'bold'),text="Firstname",bd=7,bg='cadet blue')
+        self.lblGender= Label(LeftFrame1,font=('arial',12,'bold'),text="Gender",bd=7,bg='cadet blue')
         self.lblGender.grid(row=4,column=0,sticky=W,padx=5)
         self.txtGender= Entry(LeftFrame1,font=('arial',12,'bold'),bd=5,width=60, justify='left',textvariable=Gender)
         self.txtGender.grid(row=4,column=1)
@@ -328,7 +329,7 @@ class Employee:
         self.txtBasicSalary= Entry(LeftFrame2Left,font=('arial',12,'bold'),bd=5,width=20, justify='left',textvariable=BasicSalary)
         self.txtBasicSalary.grid(row=1,column=1)
 
-        self.lblOverTime= Label(LeftFrame2Left,font=('arial',12,'bold'),text="OverTime",bd=7,bg="cadet blue",anchor='w',justify='left')
+        self.lblOverTime= Label(LeftFrame2Left,font=('arial',12,'bold'),text="Over Time",bd=7,bg="cadet blue",anchor='w',justify='left')
         self.lblOverTime.grid(row=2,column=0,sticky=W)
         self.txtOverTime= Entry(LeftFrame2Left,font=('arial',12,'bold'),bd=5,width=20, justify='left',textvariable=OverTime)
         self.txtOverTime.grid(row=2,column=1)
