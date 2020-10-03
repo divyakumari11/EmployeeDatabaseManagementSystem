@@ -1,9 +1,9 @@
 import sqlite3
-#BackendB
+#Backend
 
 def EmployeeData():
-       con=sqlite3. connect ("Employee. db")
-       cur=con.cursor ()
+       con=sqlite3.connect ("Employee.db")
+       cur=con.cursor()
        cur.execute ("CREATE TABLE IF NOT EXISTS Employee (id INTEGER PRIMARY KEY, Reference text,\
        Firstname text,Surname text, Address text, Gender text, Mobile text, NINumber text, \
        stdLoan text, Tax text, Pension text, Deductions text, NetPay text, GrossPay text)")
@@ -19,18 +19,18 @@ def addEmployeeRec (Reference,Firstname, Surname, Adress, Gender, Mobile,NINumbe
        con.close()
 
 def viewData():
-       con= sqlite3. connect ("Employee.db")
+       con= sqlite3.connect ("Employee.db")
        cur = con.cursor()
        cur.execute ("SELECT * FROM Employee")
        rows = cur.fetchall()
        con.close()
-       return Rows
+       return rows
 
 def deleteRec(id):
-       con=sqlite3. connect ("Employee.db ")
+       con=sqlite3.connect ("Employee.db")
        cur=con.cursor()
-       cur.execute ("DELETE*FROM Employee WHERE id=?",(id))
-       con.commit ()
+       cur.execute ("DELETE * FROM Employee WHERE id=?",(id,))
+       con.commit()
        con.close()
 
 def searchData(Reference ="",Firstname ="",Surname="", Adress="", Gender="", Mobile="",NINumber="",stdLoan="", Tax="", \
@@ -42,14 +42,14 @@ def searchData(Reference ="",Firstname ="",Surname="", Adress="", Gender="", Mob
                (Reference,Firstname,Surname,Adress,Gender,Mobile,NINumber,stdLoan,Tax,Pension,Deductions,NetPay,GrossPay)")
       rows=cur.fetchall()
       con.close()
-      return Rows
+      return rows
 
-def dataUpdate(Reference =" ",Firstname =" ",Surname=" ", Adress=" ", Gender=" ", Mobile=" ",NINumber=" ",stdLoan=" ", Tax=" ", Pension=" ", Deductions=" ", NetPay=" " , GrossPay=" "):
+def dataUpdate(Reference ="",Firstname ="",Surname="", Adress="", Gender="", Mobile="",NINumber="",stdLoan="", Tax="", Pension="", Deductions="", NetPay="" , GrossPay=""):
       con=sqlite3. connect ("Employee.db")
-      cur=con.cursor ( )
+      cur=con.cursor()
       cur.execute ("UPDATE Employee SET Reference =?,Firstname=?,Surname=?, Adress=?, Gender=?,Mobile=?\, NINumber=?, stdLoan=?, Tax=? , Pension=? ,Deductions=?,NetPay =?, GrossPay=?",\
                           (Reference,Firstname, Surname, Adress, Gender, Mobile,NINumber,stdLoan, Tax, Pension, Deductions, NetPay , GrossPay,id))
-      rows=cur.fetchall ( )
-      con.close( )
-      return Rows
+      rows=cur.fetchall()
+      con.close()
+      return rows
 EmployeeData()
