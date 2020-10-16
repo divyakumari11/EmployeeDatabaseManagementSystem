@@ -1,0 +1,179 @@
+from tkinter import *
+import os
+from tkinter import ttk
+import tkinter as tk
+from PIL import ImageTk
+from tkinter import ttk
+import random
+import tkinter.messagebox
+from datetime import datetime
+import time;
+import tempfile,os
+import EmployeeDatabase
+import csv
+def main():
+    root = Tk()
+    app = window1(root)
+
+class Register:
+    def __init__(self,root):
+        self.root=root
+        self.root.title("Employee Login")
+        self.root.geometry("1350x700+0+0")
+
+        #====all images======================================
+        self.bg_icon=ImageTk.PhotoImage(file="images/login1.jpg")
+        self.user_icon=ImageTk.PhotoImage(file="images/bgimg5.jpg")
+        self.username_icon=ImageTk.PhotoImage(file="images/username_icon.jpg")
+        self.password_icon=ImageTk.PhotoImage(file="images/password_icon.jpg")
+        self.register_icon=ImageTk.PhotoImage(file="images/newregister.jpg")
+#===============Variables=============================================================
+        global username
+        global password
+        global username_entry
+        global password_entry
+        username = StringVar()
+        password = StringVar()
+#=========================================================================================
+        bg_lbl=Label(self.root,image=self.bg_icon).pack()
+        title=Label(self.root,text="EMPLOYEE LOGIN",font=("times new roman",40,"bold"),fg="black",bd=10,relief=GROOVE)
+        title.place(x=0,y=0,relwidth=1)
+
+        Login_Frame=Frame(self.root,bg="white")
+        Login_Frame.place(x=400,y=150)
+
+        userlbl=Label(Login_Frame,image=self.user_icon,compound=CENTER).grid(row=0,columnspan=2,pady=20)
+        lbluser=Label(Login_Frame).grid(row=0,column=0,pady=20)
+#=======================window for registration=============================================
+        def register():
+
+            global register_screen
+            register_screen = Toplevel(main_screen)
+            register_screen.title("Register")
+            register_screen.geometry("1350x700+0+0")
+            global username
+            global password
+            global username_entry
+            global password_entry
+            username = StringVar()
+            password = StringVar()
+
+            Label(register_screen, text="Please enter details below", bg="blue",font=("times new roman",40,"bold")).pack()
+            Label(register_screen, text="").pack()
+            #bg_lbl=Label(self.root,image=self.bg_icon).pack()
+            username_lable = Label(register_screen, text="Username * ",font=("times new roman",20,"bold"))
+            username_lable.pack()
+            username_entry = Entry(register_screen, textvariable=username,font=("times new roman",20,"bold"))
+            username_entry.pack()
+            password_lable = Label(register_screen, text="Password * ",font=("times new roman",20,"bold"))
+            password_lable.pack()
+            password_entry = Entry(register_screen, textvariable=password, show='*',font=("times new roman",20,"bold"))
+            password_entry.pack()
+            Label(register_screen, text="").pack()
+            Button(register_screen, text="Register", width=10, height=1, bg="blue", command = register_user,font=("times new roman",25,"bold")).pack()
+
+
+
+
+
+
+        global username_verify
+        global password_verify
+
+        username_verify = StringVar()
+        password_verify = StringVar()
+
+        global username_login_entry
+        global password_login_entry
+
+        lbluser=Label(Login_Frame,text="Username",image=self.username_icon,compound=LEFT,font=("times new roman",20,"bold")).grid(row=1,padx=10,pady=10)
+        username_login_entry=Entry(Login_Frame,bd=5,textvariable=username,relief=GROOVE,font=("times new roman",15)).grid(row=1,column=1,padx=10)
+
+        lblpass=Label(Login_Frame,text="Password",image=self.password_icon,compound=LEFT,font=("times new roman",20,"bold")).grid(row=2,padx=10,pady=10)
+        password_login_entry=Entry(Login_Frame,bd=5,relief=GROOVE,textvariable=password,show='*',font=("times new roman",15)).grid(row=2,column=1,padx=10)
+
+        btn_log=Button(Login_Frame,text="LOGIN",width=15,font=("times new roman",14,"bold"),bg="grey",fg="black",command=login_verify).grid(row=3,column=1,pady=10)
+
+        registerlbl=Label(Login_Frame,text="New Register",font=("times new roman",20,"bold"),image=self.register_icon,compound=LEFT).grid(row=4,columnspan=1,padx=10)
+
+        btn_log=Button(Login_Frame,text="REGISTER",width=15,font=("times new roman",14,"bold"),bg="grey",fg="green",command=register_user).grid(row=4,column=1,pady=30)
+
+#======================functions for login,registration ========================================================
+def login_verify():
+    username1 = username_verify.get()
+    password1 = password_verify.get()
+    username_login_entry.delete(0, END)
+    password_login_entry.delete(0, END)
+
+    list_of_files = os.listdir()
+    if username1 in list_of_files:
+        file1 = open(username1, "r")
+        verify = file1.read().splitlines()
+        if password1 in verify:
+            login_sucess()
+
+        else:
+            password_not_recognised()
+
+    else:
+        user_not_found()
+#==============REGISTRATION FUNCTION===========================================
+def register_user():
+
+    username_info = username.get()
+    password_info = password.get()
+
+    file = open(username_info, "w")
+    file.write(username_info + "\n")
+    file.write(password_info)
+    file.close()
+
+    username_entry.delete(0, END)
+    password_entry.delete(0, END)
+
+    Label(register_screen, text="Registration Success", fg="green", font=("calibri", 11)).pack()
+
+#i============invalid password function==================================================
+def password_not_recognised():
+    global password_not_recog_screen
+    password_not_recog_screen = Toplevel(login_screen)
+    password_not_recog_screen.title("Success")
+    password_not_recog_screen.geometry("150x100")
+    Label(password_not_recog_screen, text="Invalid Password ").pack()
+    Button(password_not_recog_screen, text="OK", command=delete_password_not_recognised).pack()
+
+# Designing popup for user not found
+
+def user_not_found():
+    global user_not_found_screen
+    user_not_found_screen = Toplevel(login_screen)
+    user_not_found_screen.title("Employee Database System")
+    user_not_found_screen.geometry("'1350x750+0+0")
+    Label(user_not_found_screen, text="User Not Found").pack()
+    Button(user_not_found_screen, text="OK", command=delete_user_not_found_screen).pack()
+
+# Deleting popups
+
+def delete_login_success():
+    login_success_screen.destroy()
+
+
+def delete_password_not_recognised():
+    password_not_recog_screen.destroy()
+
+
+def delete_user_not_found_screen():
+    user_not_found_screen.destroy()
+#=======================main class==========================
+class Employee_System:
+        def __init__ (self,root):
+            self.root=root
+            self.root.title("employee database")
+            self.root.config(bg='cadet blue')
+            self.frame = Frame(self.root,bg='powder blue')
+            self.frame.pack()
+
+
+root=Tk()
+obj=Register(root)
+root.mainloop()
